@@ -47,7 +47,7 @@ The format should follow that as defined for the POST /events call (see the docs
 "Other Prop1": "Some value",
 "Other Prop2": "A different value"
 }</pre>
-`@returns`: {Object} The Response object from POSTing the request, or null if other errors.
+`@returns`: {Object} The Response object from POSTing the request, or null if other errors.<br><br>
 `@usage`: Example of using this in an Outbound Integration - Notification Response trigger<br><pre>
 console.log('Entered Outbound Integration: "Notification Responses"');<br>
 // Load shared libraries
