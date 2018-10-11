@@ -41,8 +41,8 @@ cloneEvent = function(
 
    `includeConfDetails`: {boolean} If `true` will copy the Conference Call details.  Expects that the target Form has a  Conference stanza, otherwise a run-time error may occur.
 
-   `isDynamicBridge`: {boolean} [Optional] If specified, and the source event uses a non-xMatters (EXTERNAL) conference bridge, this value determines whether or not the source event's conference bridge uses a static or dynamically defined bridge number.
-   If *_true_*, than the EXTERNAL bridge has a dynamically defined bridge number.  In that case, the bridgeNumber value must be carried over to the new form if third artument is true.
+   `isDynamicBridge`: {boolean} [Optional] If specified, and the source event uses a non-xMatters (EXTERNAL) conference bridge, this value determines whether or not the source event's conference bridge uses a static or dynamically defined bridge number.<br>
+   If *_true_*, than the EXTERNAL bridge has a dynamically defined bridge number.  In that case, the bridgeNumber value must be carried over to the new form if third artument is true.<br>
    If *_false_*, or *_undefined_*, than the assumption is that the EXTERNAL bridge has a statically specified bridge number.  In that case, the bridgeNumber must not be specified, or a runtime error will occur.
 
    `recipeints`: {object}\[] [Optional] Recipients to target.  If null or undefined then don't explicitly target anyone. The format should follow that as defined for the POST /events call (see the docs [here](https://help.xmatters.com/xmapi/index.html?javascript#trigger-an-event))
@@ -129,15 +129,14 @@ getEvent = function(
 )
 returns: {object} The event object.<br>Returns null if not found, or an error was returned.
 ```
-3. `triggerEvent` - Triggers a new event using the specified URL and trigger object.
+3. `triggerEvent` - Triggers a new event using the specified URL and trigger object.  See [Trigger an Event](https://help.xmatters.com/xmapi/index.html?javascript#trigger-an-event) in the online xM API help for details on the `trigger` object.
 ```javascript
 triggerEvent = function(
     targetURL, // {String} URL of form to trigger.
     trigger    // {object} Properly formatted Trigger object 
 )
-returns: {object} The Response object from POSTing the request<br>Returns null if other errors.
+returns: {object} The Response object from POSTing the request; returns null if other errors.
 ```
-See [Trigger an Event](https://help.xmatters.com/xmapi/index.html?javascript#trigger-an-event) in the online xM API help for details.<br>
 4. `fixPayload` - Transform the eventProperties object that is part of the payload included in an Outbound Integration script so that you can access included Form properties using dot notation.
 ```javascript
 fixPayload = function(
