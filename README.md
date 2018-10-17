@@ -21,7 +21,7 @@ There are several exposed utility functions available in `Clone Util`:
 1. `cloneEvent` - Looksup the details of the given Event (via eventId) and clones the properties and fires off another event.
 
    ```javascript
-cloneEvent = function(
+   cloneEvent = function(
         eventId,             // eventId to use as the source for Properties and other metadata
         targetURL,           // URL of form to trigger
         includeConfDetails,  // If true will copy the Conference Call details.
@@ -49,21 +49,21 @@ cloneEvent = function(
    e.g.
    
    ```javascript
-[
-{"id":"mmcbride", "recipientType": "PERSON"},
-{"id":"Executives", "recipientType": "GROUP"}
-]
+   [
+   {"id":"mmcbride", "recipientType": "PERSON"},
+   {"id":"Executives", "recipientType": "GROUP"}
+   ]
    ```
 
    `propertyMatcher`: {object}\[] (Optional) Array of simple property matching objects of "sourcePropertyName" and "targetPropertyName"<br>
    e.g.
 
    ```javascript
-[
-{"sourcePropertyName": "subject", "targetPropertyName": "Description"},
-{"sourcePropertyName": "ticketNumber", "targetPropertyName": "Incident ID"},
-{"sourcePropertyName": "impactedSystem", "targetPropertyName": "CI"}
-]
+   [
+   {"sourcePropertyName": "subject", "targetPropertyName": "Description"},
+   {"sourcePropertyName": "ticketNumber", "targetPropertyName": "Incident ID"},
+   {"sourcePropertyName": "impactedSystem", "targetPropertyName": "CI"}
+   ]
    ```
 
    `additionalProperties`: {object} (Optional) Additional properties that will be added to the target payload.
@@ -71,10 +71,10 @@ cloneEvent = function(
    e.g.
    
    ```javascript
-{
-"Other Prop1": "Some value",
-"Other Prop2": "A different value"
-}
+   {
+   "Other Prop1": "Some value",
+   "Other Prop2": "A different value"
+   }
    ```
 
    `returns`: {Object} The Response object from POSTing the request, or null if other errors.
@@ -121,51 +121,57 @@ cloneEvent = function(
 			console.log('Unknown response option.');
 		break;
 	}
-```
+   ```
 
 2. `getEvent` - Retrieves the xMatters event object via it's event id.
-```javascript
-	getEvent = function(
-		eventId //{string|number} Event identifier to find
-	)
-	returns: {object} The event object.<br>Returns null if not found, or an error was returned.
-```
+
+   ```javascript
+    getEvent = function(
+        eventId //{string|number} Event identifier to find
+    )
+    returns: {object} The event object.<br>Returns null if not found, or an error was returned.
+   ```
 
 3. `triggerEvent` - Triggers a new event using the specified URL and trigger object.
-```javascript
+
+   ```javascript
     triggerEvent = function(
         targetURL, // {String} URL of form to trigger.
         trigger    // {object} Properly formatted Trigger object 
     )
     returns: {object} The Response object from POSTing the request<br>Returns null if other errors.
-```
+   ```
+   
 See [Trigger an Event](https://help.xmatters.com/xmapi/index.html?javascript#trigger-an-event) in the online xM API help for details.<br>
 
 4. `fixPayload` - Transform the eventProperties object that is part of the payload included in an Outbound Integration script so that you can access included Form properties using dot notation.  Also fixes the `annotation` field to be truly `null` if it comes in as `"null"`.
-```javascript
+
+   ```javascript
     fixPayload = function(
         payload // {object} payload object from an Outbound Integration
     )
-```
+   ```
 
 5. `isValidStatusCode` - Determine if an HTTP status code represents success (is between 200 and 299).
-```javascript
+
+   ```javascript
     isValidStatusCode = function(
         statusCode // {number} statusCode from an HTTP response
     )
     returns: {boolean} true if successful; false otherwise
-```
+   ```
 
 6. `callxMatters` - Calls xMatters based on the input parameters.<br>In the case of a failure (5xx) or exception, will retry up to 2 additional times (default).
-```javascript
-	callxMatters = function(
-		method,        // {string} the HTTP method to call
-		path,          // {string} path to make call against
-		autoEncodeURI, // {boolean} whether or not to auto Encode the URI
-		payload        // {object} [Optional] the properties to send with POST or PUT
-	)
-	returns: {object} the Response object
-``` 
+
+   ```javascript
+    callxMatters = function(
+        method,        // {string} the HTTP method to call
+        path,          // {string} path to make call against
+        autoEncodeURI, // {boolean} whether or not to auto Encode the URI
+        payload        // {object} [Optional] the properties to send with POST or PUT
+    )
+    returns: {object} the Response object
+   ``` 
 
 # Installation
 Installation is simple.
