@@ -21,7 +21,7 @@ There are several exposed utility functions available in `Clone Util`:
 1. `cloneEvent` - Looksup the details of the given Event (via eventId) and clones the properties and fires off another event.
 
    ```javascript
-cloneEvent = function(
+   cloneEvent = function(
         eventId,             // eventId to use as the source for Properties and other metadata
         targetURL,           // URL of form to trigger
         includeConfDetails,  // If true will copy the Conference Call details.
