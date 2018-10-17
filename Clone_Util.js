@@ -310,8 +310,8 @@ var fixPayload = function(payload) {
     }
     
     // Handle responses without annotations
-    if (callback.annotation == "null") {
-        callback.annotation = null;
+    if (payload.annotation == "null") {
+        payload.annotation = null;
     }
 
 };
