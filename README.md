@@ -20,7 +20,7 @@ There are several exposed utility functions available in `Clone Util`:
 
 1. `cloneEvent` - Looksup the details of the given Event (via eventId) and clones the properties and fires off another event.
 
-   ```javascript
+```javascript
 cloneEvent = function(
         eventId,             // eventId to use as the source for Properties and other metadata
         targetURL,           // URL of form to trigger
@@ -30,7 +30,7 @@ cloneEvent = function(
         propertyMatcher,     // [Optional] Array of simple property matching objects of "sourcePropertyName" and "targetPropertyName"
         additionalProperties // [Optional] Additional properties to be added to the target payload.
         )
-   ```
+```
 
    **cloneEvent() Detailed Argument Description:**
    
@@ -41,8 +41,8 @@ cloneEvent = function(
 
    `includeConfDetails`: {boolean} If `true` will copy the Conference Call details.  Expects that the target Form has a  Conference stanza, otherwise a run-time error may occur.
 
-   `isDynamicBridge`: {boolean} [Optional] If specified, and the source event uses a non-xMatters (EXTERNAL) conference bridge, this value determines whether or not the source event's conference bridge uses a static or dynamically defined bridge number.
-   If *_true_*, than the EXTERNAL bridge has a dynamically defined bridge number.  In that case, the bridgeNumber value must be carried over to the new form if third artument is true.
+   `isDynamicBridge`: {boolean} [Optional] If specified, and the source event uses a non-xMatters (EXTERNAL) conference bridge, this value determines whether or not the source event's conference bridge uses a static or dynamically defined bridge number.<br>
+   If *_true_*, than the EXTERNAL bridge has a dynamically defined bridge number.  In that case, the bridgeNumber value must be carried over to the new form if third artument is true.<br>
    If *_false_*, or *_undefined_*, than the assumption is that the EXTERNAL bridge has a statically specified bridge number.  In that case, the bridgeNumber must not be specified, or a runtime error will occur.
 
    `recipeints`: {object}\[] [Optional] Recipients to target.  If null or undefined then don't explicitly target anyone. The format should follow that as defined for the POST /events call (see the docs [here](https://help.xmatters.com/xmapi/index.html?javascript#trigger-an-event))
@@ -81,6 +81,7 @@ cloneEvent = function(
    
    `usage`: Example of using this in an Outbound Integration - Notification Response trigger
 
+<<<<<<< HEAD
    ```javascript
 	console.log('Entered Outbound Integration: "Notification Responses"');
 
@@ -121,50 +122,100 @@ cloneEvent = function(
 			console.log('Unknown response option.');
 		break;
 	}
+=======
+```javascript
+console.log('Entered Outbound Integration: "Notification Responses"');
+
+// Load shared libraries
+var clone = require('Clone Util');
+
+// Parse and fixup the inbound payload
+var payload = JSON.parse(request.body);
+clone.fixPayload(payload);
+
+// Take an action based on the first word of the response
+var response = payload.response.toLowerCase().split(" ")[0];
+switch (response) {
+
+    // If "inform" then clone the form and send to stakeholders
+    case "inform": {
+
+        var response = clone.cloneEvent(
+            payload.eventIdentifier, // Source Event ID
+            constants.STAKEHOLDERS_FORM_URL, // URL of form to trigger
+            false, // Don't need conference bridge details
+            null, // Don't need conference bridgeNumber
+            [{"id":"jolin|Work Email", "recipientType": "DEVICE"}], // Specific recipients (optional)
+            [{"sourcePropertyName": "Prop1", "targetPropertyName": "prop2"}, // Property map (optional)
+             {"sourcePropertyName": "prop2", "targetPropertyName": "Prop1"}],
+            null // Not adding any additional properties at this time.
+            );
+        if (null === response) {
+            console.log('response returned null after calling cloneEvent.');
+        } else {
+            console.log('response after calling cloneEvent: ' + JSON.stringify(response, null, 4));
+        }
+    }
+    break;
+
+    // Any other response
+    default:
+        console.log('Unknown response option.');
+    break;
+}
+>>>>>>> f47eb5770a726a9dcf6d23801773785355651059
 ```
 
 2. `getEvent` - Retrieves the xMatters event object via it's event id.
 ```javascript
-	getEvent = function(
-		eventId //{string|number} Event identifier to find
-	)
-	returns: {object} The event object.<br>Returns null if not found, or an error was returned.
+getEvent = function(
+    eventId //{string|number} Event identifier to find
+)
+returns: {object} The event object.<br>Returns null if not found, or an error was returned.
 ```
+<<<<<<< HEAD
 
 3. `triggerEvent` - Triggers a new event using the specified URL and trigger object.
+=======
+3. `triggerEvent` - Triggers a new event using the specified URL and trigger object.  See [Trigger an Event](https://help.xmatters.com/xmapi/index.html?javascript#trigger-an-event) in the online xM API help for details on the `trigger` object.
+>>>>>>> f47eb5770a726a9dcf6d23801773785355651059
 ```javascript
-    triggerEvent = function(
-        targetURL, // {String} URL of form to trigger.
-        trigger    // {object} Properly formatted Trigger object 
-    )
-    returns: {object} The Response object from POSTing the request<br>Returns null if other errors.
+triggerEvent = function(
+    targetURL, // {String} URL of form to trigger.
+    trigger    // {object} Properly formatted Trigger object 
+)
+returns: {object} The Response object from POSTing the request; returns null if other errors.
 ```
+<<<<<<< HEAD
 See [Trigger an Event](https://help.xmatters.com/xmapi/index.html?javascript#trigger-an-event) in the online xM API help for details.<br>
 
 4. `fixPayload` - Transform the eventProperties object that is part of the payload included in an Outbound Integration script so that you can access included Form properties using dot notation.  Also fixes the `annotation` field to be truly `null` if it comes in as `"null"`.
+=======
+4. `fixPayload` - Transform the eventProperties object that is part of the payload included in an Outbound Integration script so that you can access included Form properties using dot notation.
+>>>>>>> f47eb5770a726a9dcf6d23801773785355651059
 ```javascript
-    fixPayload = function(
-        payload // {object} payload object from an Outbound Integration
-    )
+fixPayload = function(
+    payload // {object} payload object from an Outbound Integration
+)
 ```
 
 5. `isValidStatusCode` - Determine if an HTTP status code represents success (is between 200 and 299).
 ```javascript
-    isValidStatusCode = function(
-        statusCode // {number} statusCode from an HTTP response
-    )
-    returns: {boolean} true if successful; false otherwise
+isValidStatusCode = function(
+    statusCode // {number} statusCode from an HTTP response
+)
+returns: {boolean} true if successful; false otherwise
 ```
 
 6. `callxMatters` - Calls xMatters based on the input parameters.<br>In the case of a failure (5xx) or exception, will retry up to 2 additional times (default).
 ```javascript
-	callxMatters = function(
-		method,        // {string} the HTTP method to call
-		path,          // {string} path to make call against
-		autoEncodeURI, // {boolean} whether or not to auto Encode the URI
-		payload        // {object} [Optional] the properties to send with POST or PUT
-	)
-	returns: {object} the Response object
+callxMatters = function(
+    method,        // {string} the HTTP method to call
+    path,          // {string} path to make call against
+    autoEncodeURI, // {boolean} whether or not to auto Encode the URI
+    payload        // {object} [Optional] the properties to send with POST or PUT
+)
+returns: {object} the Response object
 ``` 
 
 # Installation
