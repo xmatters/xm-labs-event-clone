@@ -17,7 +17,10 @@
  *   None.
  *
  * Hisory
- *  Version: 1.0 (2018-10-11)
+ *  Version: 1.1 (2018-10-17)
+ *
+ * Source
+ *   https://github.com/xmatters/xm-labs-event-clone
  *
  * ---------------------------------------------------------------------------------------------------------------------
  */
@@ -287,12 +290,14 @@ exports.triggerEvent = triggerEvent;
  *
  * Transform the eventProperties object so that
  * you can access form properties using dot notation.
+ * And, fixes up the callback.annotation when is "null".
  * 
  * @param {object} payload object from an Outbound Integration
  * 
  * ---------------------------------------------------------------------------------------------------------------------
  */
 var fixPayload = function(payload) {
+
     if (payload.eventProperties && Array.isArray(payload.eventProperties)) {
         var eventProperties = payload.eventProperties;
         payload.eventProperties = {};
@@ -303,6 +308,12 @@ var fixPayload = function(payload) {
             payload.eventProperties[key] = eventProperty[key];
           }
     }
+    
+    // Handle responses without annotations
+    if (callback.annotation == "null") {
+        callback.annotation = null;
+    }
+
 };
 exports.fixPayload = fixPayload;
 

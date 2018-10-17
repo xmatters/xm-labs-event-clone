@@ -81,7 +81,7 @@ cloneEvent = function(
    
    `usage`: Example of using this in an Outbound Integration - Notification Response trigger
 
-```javascript
+   ```javascript
 	console.log('Entered Outbound Integration: "Notification Responses"');
 
 	// Load shared libraries
@@ -122,6 +122,7 @@ cloneEvent = function(
 		break;
 	}
 ```
+
 2. `getEvent` - Retrieves the xMatters event object via it's event id.
 ```javascript
 	getEvent = function(
@@ -129,6 +130,7 @@ cloneEvent = function(
 	)
 	returns: {object} The event object.<br>Returns null if not found, or an error was returned.
 ```
+
 3. `triggerEvent` - Triggers a new event using the specified URL and trigger object.
 ```javascript
     triggerEvent = function(
@@ -138,12 +140,14 @@ cloneEvent = function(
     returns: {object} The Response object from POSTing the request<br>Returns null if other errors.
 ```
 See [Trigger an Event](https://help.xmatters.com/xmapi/index.html?javascript#trigger-an-event) in the online xM API help for details.<br>
-4. `fixPayload` - Transform the eventProperties object that is part of the payload included in an Outbound Integration script so that you can access included Form properties using dot notation.
+
+4. `fixPayload` - Transform the eventProperties object that is part of the payload included in an Outbound Integration script so that you can access included Form properties using dot notation.  Also fixes the `annotation` field to be truly `null` if it comes in as `"null"`.
 ```javascript
     fixPayload = function(
         payload // {object} payload object from an Outbound Integration
     )
 ```
+
 5. `isValidStatusCode` - Determine if an HTTP status code represents success (is between 200 and 299).
 ```javascript
     isValidStatusCode = function(
@@ -151,6 +155,7 @@ See [Trigger an Event](https://help.xmatters.com/xmapi/index.html?javascript#tri
     )
     returns: {boolean} true if successful; false otherwise
 ```
+
 6. `callxMatters` - Calls xMatters based on the input parameters.<br>In the case of a failure (5xx) or exception, will retry up to 2 additional times (default).
 ```javascript
 	callxMatters = function(
